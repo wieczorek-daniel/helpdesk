@@ -1,0 +1,29 @@
+// Bootstrap
+@import url("https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css");
+// Date
+@import url("https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css");
+// Fonts
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans");
+@import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");
+// Icons
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+// Variables
+@import "variables";
+// Partials
+@import "partials/index";
+@import "partials/cards";
+@import "partials/navbar";
+@import "partials/modal";
+
+html{
+    height: 100vh;
+	min-width: 320px;
+	margin: 0;
+	padding: 0; 
+}
+
+body {
+	color: #FFF;
+	font-family: $primary-font;
+	background: $secondary-color;
+}

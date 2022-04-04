@@ -1,0 +1,32 @@
+// Typography
+$primary-font: 'Work Sans', sans-serif;
+$secondary-font: 'Anton', sans-serif;
+
+// Colors
+$primary-color: #2C3E50;
+$secondary-color: #34495E;
+$tertiary-color: #7F8C8D;
+$quaternary-color: #E0F7FA;
+
+// Responsive Web Design Breakpoints
+$breakpoints: (
+  xs: 512px,
+  sm: 768px,
+  md: 896px,
+  lg: 1152px,
+  xl: 1280px
+);
+
+@mixin breakpoint( $breakpoint ) {
+    @if map-has-key( $breakpoints, $breakpoint ) {
+       @media ( min-width: #{ map-get( $breakpoints, $breakpoint ) } ) {
+         @content;
+       }
+    } @else if type_of( $breakpoint ) == number and unit( $breakpoint ) == px or unit( $breakpoint ) == em or unit( $breakpoint ) == rem {
+       @media (min-width: $breakpoint ) {
+         @content;
+       }
+    } @else {
+       @warn "Cannot retrieve any value from `#{$breakpoint}`. Is not defined in the `$breakpoints` map or is an invalid number of px, em, or rem.";
+    }
+}

@@ -1,0 +1,9 @@
+Otrzymałeś tę wiadomość, ponieważ zarejestrowaliśmy żądanie zmiany hasła konta użytkownika {{ user.username }} w aplikacji Nie jesteś sam. To konto jest powiązane z Twoim adresem e-mail. Jeśli to nie Ty wykonałeś żądanie, to prosimy o zignorowanie tej wiadomości.
+
+Aby potwierdzić konto, przejdź do poniższej strony:
+{{ link }}
+
+Link potwierdzający konto wygaśnie za godzinę.
+
+Dziękujemy za używanie naszej strony,
+Zespół aplikacji Nie jesteś sam

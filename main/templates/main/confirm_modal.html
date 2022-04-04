@@ -1,0 +1,24 @@
+<div class="modal fade" id="confirm-modal-{{issue.id}}" tabindex="-1" aria-labelledby="confirm-modal-label-{{issue.id}}"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirm-modal-label-{{issue.id}}">Usuwanie zgłoszenia</h5>
+                <button type="button" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            <div class="modal-body">
+                Jesteś pewien, że chcesz usunąć zgłoszenie "{{ issue.title }}"?
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <form action="{% url 'delete_issue' issue.id  %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit">
+                        Usuń
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

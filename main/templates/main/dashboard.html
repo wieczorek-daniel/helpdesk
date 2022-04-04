@@ -1,0 +1,65 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+{% if not issues %}
+<div class="container-center">
+    <h2>Nie utworzyłeś jeszcze żadnych zgłoszeń.</h2>
+</div>
+{% endif %}
+<div class="container">
+    {% for message in messages %}
+    <div class="alert alert-dismissible fade show" role="alert">
+        <span>{{ message }}</span>
+        <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+    {% for issue in issues %}
+    <div class="card issue">
+        <div class="card-header">
+            <span>{{ issue.title }}</span>
+            <button type="button" data-bs-toggle="modal" data-bs-target="#confirm-modal-{{ issue.id }}">
+                <span class="material-icons">delete</span>
+            </button>
+            <button type="button" data-bs-toggle="modal" data-bs-target="#issue-modal-{{ issue.id }}">
+                <span class="material-icons">edit</span>
+            </button>
+        </div>
+        <div class="card-body">
+            <span>
+                <i class="material-icons">report_problem</i>Osoba zgłaszająca: {{ issue.reporter }}
+            </span>
+            <span>
+                <i class="material-icons">person</i>Przypisany pracownik: {{ issue.assignee }}
+            </span>
+            <span>
+                <i class="material-icons">hourglass_bottom</i>Termin: {{ issue.deadline | date:"Y-m-d" }} {{ issue.deadline | time:"H:i" }}
+            </span>
+            <span>
+                <i class="material-icons">flaky</i>Status: 
+                {% if issue.is_completed == 1 %}
+                    <span class="badge badge-success">Ukończone</span>
+                {% elif issue.is_completed == 0 and issue.is_in_progress == 1%}
+                    <span class="badge badge-warning">W realizacji</span>
+                {% elif issue.is_completed == 0 %}
+                    <span class="badge badge-danger">Nierozpoczęte</span>
+                {% endif %}
+            </span>
+            {% if issue.description %}
+            <span><i class="material-icons">description</i>Opis: {{ issue.description }}</span>
+            {% endif %}
+        </div>
+        <div class="card-footer">
+            <span><i class="material-icons">access_time</i>Utworzono: {{ issue.created_at | date:"Y-m-d" }} {{ issue.created_at | time:"H:i" }}
+            </span>
+            <span>
+                <i class="material-icons">update</i>Zaktualizowano: {{ issue.updated_at | date:"Y-m-d" }} {{ issue.updated_at | time:"H:i" }}
+            </span>
+        </div>
+    </div>
+    {% include 'main/confirm_modal.html' %}
+    {% include 'main/issue_modal.html' %}
+    {% endfor %}
+</div>
+{% endblock %}

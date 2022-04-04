@@ -1,0 +1,119 @@
+.container, .container-center, .container-sm {
+    width: 90%;
+    text-align: center;
+  }
+  
+  .container {
+    position: inherit;
+    transform: none;
+    margin: 20px auto;
+  }
+  
+  .container-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .container-sm {
+    position: inherit;
+    transform: none;
+    margin: 20px auto;
+  
+    @include breakpoint(lg) {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      margin: 0 auto;
+    }
+  }
+  
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-family: $secondary-font;
+  
+    @include breakpoint(md) {
+      font-size: 4rem;
+    }
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  
+    @include breakpoint(md) {
+      font-size: 2rem;
+    }
+  }
+  
+  button {
+    color: #FFF;
+    cursor: pointer;
+    outline: none;
+    background: transparent;
+    font-size: 1.2rem;
+    font-weight: 800;
+    border: #FFF solid 2px;
+    border-radius: 24px;
+    padding: 10px 40px;
+    width: 200px;
+    text-transform: uppercase;
+    transition: all 0.2s linear;
+    margin: 0;
+  
+    &:hover {
+      background: #FFF;
+      color: $secondary-color;
+      border-color: $secondary-color;
+    }
+  }
+  
+  a {
+    text-decoration: none;
+  }
+  
+  .buttons a:first-of-type {
+    button {
+      margin-bottom: 20px;
+    }
+    
+    @include breakpoint(sm) {
+      margin-right: 40px;
+  
+      button {
+        margin: 0
+      }
+    }
+  }
+  
+  .alert {
+    background-color: $primary-color;
+    position: relative;
+  
+    button {
+      color: #FFF;
+      cursor: pointer;
+      outline: none;
+      background: transparent;
+      font-weight: 800;
+      border: none;
+      padding: 0;
+      width: 20px;
+      transition: all 0.2s linear;
+      position:absolute;
+      top: 12px;
+      right: 20px;
+  
+      &:hover {
+        color: $tertiary-color;
+      }
+    }
+  }
+  
+  .standalone-button {
+    width: 300px;
+    margin-right: 0;
+  }

@@ -1,0 +1,56 @@
+<nav class="navbar sticky-top navbar-expand-lg">
+    <div class="container-fluid">
+        <div class="navbar-collapse collapse w-100 order-1 order-lg-0 dual-collapse2">
+            <ul class="navbar-nav me-auto">
+                {% load has_group %}
+                {% if request.user|has_group:"Administrators" %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'create_user' %}">
+                        <span><i class="material-icons">person_add_alt_1</i>Dodaj użytkownika</span>
+                    </a>
+                </li>
+                {% endif %} 
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'dashboard' %}">
+                        <span><i class="material-icons">report</i>Twoje zgłoszenia</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'create_issue' %}">
+                        <span><i class="material-icons">add</i>Dodaj zgłoszenie</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="mx-lg-auto order-0">
+            <a class="navbar-brand mx-lg-auto" href="{% url 'home' %}"></a>
+        </div>
+        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <span>
+                            <i class="material-icons">person</i>
+                            {{ request.user.first_name }} {{ request.user.last_name }} ({{ request.user }})
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li>
+                            <a class="dropdown-item" href="{% url 'logout' %}">Wyloguj</a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="{% url 'settings' %}">Ustawienia</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".dual-collapse2" aria-controls="dual-collapse2" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon">
+                <i class="material-icons">menu</i>
+            </span>
+        </button>
+    </div>
+</nav>

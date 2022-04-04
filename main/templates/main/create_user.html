@@ -1,0 +1,54 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container-sm">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            {% for field, errors in form.errors.items %}
+            <div class="alert alert-dismissible fade show" role="alert">
+                <span>Błąd w polach: {{field}} {{ errors }}</span>
+                <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+            {% for message in messages %}
+            <div class="alert alert-dismissible fade show" role="alert">
+                <span>{{ message }}</span>
+                <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+            <div class="card">
+                <div class="card-header">
+                    <a href="{% url 'home' %}">
+                        <span class="material-icons">arrow_back</span>
+                    </a>
+                    <span>Dodawanie użytkownika</span>
+                </div>
+                <div class="card-body align-items-center">
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="form-group row">
+                            <label class="col-md-4 offset-md-1 col-form-label">{{ field.label }}</label>
+                            <div class="col-md-6">
+                                {{ field }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <button type="submit">
+                                    Dodaj
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
