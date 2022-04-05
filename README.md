@@ -59,7 +59,7 @@ python3 manage.py runserver
 ```
 
 ## Live demo
-Heroku deployment: 
+Heroku deployment: https://niejestessam.herokuapp.com
 
 ## Basic accounts (available after migrate operation)
 | Username | Password     | Account type  |

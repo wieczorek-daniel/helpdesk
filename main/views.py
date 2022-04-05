@@ -76,7 +76,12 @@ def logoutUser(request):
 
 @login_required(login_url='login')
 def dashboard(request):
-    issues = Issue.objects.filter(reporter=request.user).order_by('deadline').all()
+    if request.user.groups.filter(name='Administrators').exists():
+        issues = Issue.objects.order_by('deadline').all()
+    elif request.user.groups.filter(name='Staff').exists():
+        issues = Issue.objects.filter(assignee=request.user).order_by('deadline').all()
+    elif request.user.groups.filter(name='Users').exists():
+        issues = Issue.objects.filter(reporter=request.user).order_by('deadline').all()
     context = {'issues': issues}
     return render(request, "main/dashboard.html", context)
 
