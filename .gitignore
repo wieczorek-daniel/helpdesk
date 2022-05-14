@@ -108,4 +108,4 @@ GitHub.sublime-settings
 static/CACHE/
 
 # Initial migration
-main/migrations/0001_initial.py
+main/migrations/00*.py
