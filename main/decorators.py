@@ -3,9 +3,9 @@ from django.shortcuts import redirect, render
 
 
 def group_required(*group_names):
-    def in_groups(u):
-        if u.is_authenticated:
-            if bool(u.groups.filter(name__in=group_names)):
+    def in_groups(user):
+        if user.is_authenticated:
+            if bool(user.groups.filter(name__in=group_names)):
                 return True
         return False
 

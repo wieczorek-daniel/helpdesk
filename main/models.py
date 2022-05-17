@@ -7,10 +7,21 @@ class Issue(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     deadline = models.DateTimeField()
-    is_completed = models.BooleanField(default=False)
-    is_in_progress = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    STATUS = (
+        ('to_do', ('Nierozpoczęte')),
+        ('in_progress', ('W realizacji')),
+        ('testing', ('Testowanie')),
+        ('done', ('Ukończone')),
+    )
+
+    status = models.CharField(
+        max_length=32,
+        choices=STATUS,
+        default='to_do',
+    )
     
     def __str__(self):
         return self.title

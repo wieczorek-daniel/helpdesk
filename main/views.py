@@ -22,9 +22,8 @@ def loginUser(request):
         if request.method == 'POST':
             username = request.POST.get('username').lower()
             password = request.POST.get('password')
-            print(username + ' ' + password)
             user = authenticate(request, username=username, password=password)
-            print(user)
+            
             if user is not None:
                 login(request, user)
                 return redirect('dashboard')
@@ -82,7 +81,10 @@ def dashboard(request):
         issues = Issue.objects.filter(assignee=request.user).order_by('deadline').all()
     elif request.user.groups.filter(name='Users').exists():
         issues = Issue.objects.filter(reporter=request.user).order_by('deadline').all()
-    context = {'issues': issues}
+    
+    staff = User.objects.filter(groups__name='Administrators') | User.objects.filter(groups__name='Staff')
+
+    context = {'issues': issues, 'staff': staff}
     return render(request, "main/dashboard.html", context)
 
 
@@ -143,7 +145,6 @@ def createIssue(request):
 
     if request.method == 'POST':
         form = CreateIssueForm(request.POST)
-        
         if form.is_valid():
             issue = form.save(commit=False)
             issue.reporter = request.user
@@ -158,10 +159,11 @@ def createIssue(request):
 @login_required(login_url='login')
 def updateIssue(request, pk):
     issue = Issue.objects.get(id=pk)
-    
+
     if request.method == "POST":
         form = CreateIssueForm(request.POST, instance=issue)
         if form.is_valid():
+            issue.assignee = User.objects.filter(id=request.POST['assignee']).first()
             form.save()
             messages.success(request, 'Zgłoszenie zostało pomyślnie zmodyfikowane.')
             return redirect('dashboard')

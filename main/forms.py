@@ -43,4 +43,4 @@ class UpdateUserForm(ModelForm):
 class CreateIssueForm(ModelForm):
     class Meta:
         model = Issue
-        fields = ['title', 'description', 'deadline']
+        fields = ['title', 'description', 'deadline', 'status']

@@ -31,6 +31,31 @@ aria-hidden="true">
                         <input id="datetimepicker" name="deadline" type="text" value="{{ issue.deadline | date:'Y-m-d' }} {{ issue.deadline | time:'H:i' }}">
                     </div>
                 </div>
+                {% load has_group %}
+                {% if request.user|has_group:"Administrators" %}
+                <div class="form-group row">
+                    <label for="assignee" class="col-md-4 offset-md-1 col-form-label">Pracownik</label>
+                    <div class="col-md-6">
+                        <select class="form-select" name="assignee" aria-label="Wybór przypisanego pracownika">
+                            {% for user in staff %}
+                            <option value="{{ user.id }}">{{ user.username }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                {% endif %}
+                {% if not request.user|has_group:"Users" %}
+                <div class="form-group row">
+                    <label for="status" class="col-md-4 offset-md-1 col-form-label">Status</label>
+                    <div class="col-md-6">
+                        <select class="form-select" name="status" aria-label="Wybór statusu zgłoszenia">
+                            {% for key, value in issue.STATUS %}
+                            <option {% if issue.status == key %} selected {% endif %} value="{{ key }}">{{ value }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                {% endif %}
             </div>
             <div class="modal-footer d-flex justify-content-center">
                 <button type="submit">

@@ -38,12 +38,14 @@
             </span>
             <span>
                 <i class="material-icons">flaky</i>Status: 
-                {% if issue.is_completed == 1 %}
+                {% if issue.status == 'done' %}
                     <span class="badge badge-success">Ukończone</span>
-                {% elif issue.is_completed == 0 and issue.is_in_progress == 1%}
+                {% elif issue.status == 'in_progress' %}
                     <span class="badge badge-warning">W realizacji</span>
-                {% elif issue.is_completed == 0 %}
+                {% elif issue.status == 'to_do' %}
                     <span class="badge badge-danger">Nierozpoczęte</span>
+                {% elif issue.status == 'testing' %}
+                    <span class="badge bg-primary">Testowanie</span>
                 {% endif %}
             </span>
             {% if issue.description %}
