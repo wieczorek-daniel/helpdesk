@@ -12,12 +12,22 @@
                 {% endif %} 
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'dashboard' %}">
-                        <span><i class="material-icons">report</i>Twoje zgłoszenia</span>
+                        <span><i class="material-icons">report</i>Zgłoszenia</span>
                     </a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'create_issue' %}">
-                        <span><i class="material-icons">add</i>Dodaj zgłoszenie</span>
+                        <span><i class="material-icons">add</i>Nowe zgłoszenie</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'archive' %}">
+                        <span><i class="material-icons">history</i>Archiwum</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="">
+                        <span><i class="material-icons">show_chart</i>Statystyki</span>
                     </a>
                 </li>
             </ul>

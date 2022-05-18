@@ -23,7 +23,7 @@ def loginUser(request):
             username = request.POST.get('username').lower()
             password = request.POST.get('password')
             user = authenticate(request, username=username, password=password)
-            
+
             if user is not None:
                 login(request, user)
                 return redirect('dashboard')
@@ -76,11 +76,11 @@ def logoutUser(request):
 @login_required(login_url='login')
 def dashboard(request):
     if request.user.groups.filter(name='Administrators').exists():
-        issues = Issue.objects.order_by('deadline').all()
+        issues = Issue.objects.exclude(status='done').order_by('deadline').all()
     elif request.user.groups.filter(name='Staff').exists():
-        issues = Issue.objects.filter(assignee=request.user).order_by('deadline').all()
+        issues = Issue.objects.filter(assignee=request.user).exclude(status='done').order_by('deadline').all()
     elif request.user.groups.filter(name='Users').exists():
-        issues = Issue.objects.filter(reporter=request.user).order_by('deadline').all()
+        issues = Issue.objects.filter(reporter=request.user).exclude(status='done').order_by('deadline').all()
     
     staff = User.objects.filter(groups__name='Administrators') | User.objects.filter(groups__name='Staff')
 
@@ -183,6 +183,17 @@ def deleteIssue(request, pk):
 
     messages.error(request, 'Wystąpił błąd podczas usuwania zgłoszenia.')
     return redirect('dashboard')
+
+
+@login_required(login_url='login')
+def archive(request):
+    if request.user.groups.filter(name='Users').exists():
+        issues = issues = Issue.objects.filter(reporter=request.user, status='done').order_by('deadline').all()
+    else:
+        issues = Issue.objects.filter(status='done').order_by('deadline').all()
+  
+    context = {'issues': issues}
+    return render(request, "main/archive.html", context)
 
 
 def handler403(request, exception):

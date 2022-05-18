@@ -20,4 +20,5 @@ urlpatterns = [
     path('create_issue/', views.createIssue, name='create_issue'),
     path('update_issue/<str:pk>/', views.updateIssue, name="update_issue"),
     path('delete_issue/<str:pk>/', views.deleteIssue, name="delete_issue"),
+    path('archive/', views.archive, name="archive"),
 ]

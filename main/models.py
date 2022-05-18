@@ -17,11 +17,7 @@ class Issue(models.Model):
         ('done', ('Ukończone')),
     )
 
-    status = models.CharField(
-        max_length=32,
-        choices=STATUS,
-        default='to_do',
-    )
+    status = models.CharField(max_length=32, choices=STATUS, default='to_do')
     
     def __str__(self):
         return self.title
