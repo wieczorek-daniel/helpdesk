@@ -196,6 +196,36 @@ def archive(request):
     return render(request, "main/archive.html", context)
 
 
+@login_required(login_url='login')
+def statistics(request):
+    undone_count = Issue.objects.exclude(status='done').all().count()
+    to_do_count = Issue.objects.filter(status='to_do').all().count()
+    in_progress_count = Issue.objects.filter(status='in_progress').all().count()
+    testing_count = Issue.objects.filter(status='testing').all().count()
+    done_count = Issue.objects.filter(status='done').all().count()
+    in_processing_count = in_progress_count + testing_count
+
+    sum = amount = 0
+    for issue in Issue.objects.filter(status='done').all():
+        sum += (issue.updated_at - issue.created_at).days
+        print(sum)
+        amount += 1
+    average_processing_time = sum / amount
+    
+    issues_data = {
+        'undone_count': undone_count,
+        'to_do_count': to_do_count,
+        'in_progress_count': in_progress_count,
+        'testing_count': testing_count,
+        'done_count': done_count,
+        'in_processing_count': in_processing_count,
+        'average_processing_time': average_processing_time
+    }
+
+    context = {'issues_data': issues_data}
+    return render(request, "main/statistics.html", context)
+
+
 def handler403(request, exception):
     context = {}
     response = render(request, "errors/403.html", context=context)

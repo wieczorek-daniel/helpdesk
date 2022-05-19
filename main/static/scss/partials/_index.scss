@@ -1,4 +1,4 @@
-.container, .container-center, .container-sm {
+  .container, .container-center, .container-sm {
     width: 90%;
     text-align: center;
   }
@@ -116,4 +116,12 @@
   .standalone-button {
     width: 300px;
     margin-right: 0;
+  }
+
+  .mbsm {
+    margin-bottom: 20px;
+
+    @include breakpoint(md) {
+      margin-bottom: 0;
+    }
   }

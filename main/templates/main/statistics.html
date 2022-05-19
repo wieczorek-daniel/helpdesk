@@ -1,0 +1,75 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container-sm container-center">
+    <div class="row justify-content-around">
+        <div class="col-sm-12 col-lg-5 mbsm">
+            <canvas id="pie-chart" ></canvas>
+            {{ issues_data.to_do_count|json_script:"issues_data.to_do_count" }}
+            {{ issues_data.in_progress_count|json_script:"issues_data.in_progress_count" }}
+            {{ issues_data.testing_count|json_script:"issues_data.testing_count" }}       
+        </div>
+        <div class="col-sm-12 col-lg-5">
+            <div class="jumbotron jumbotron-fluid">
+                <p class="lead">Obecnie procesowanych:</p>
+                <p class="display-4">{{ issues_data.in_processing_count }} / {{ issues_data.undone_count }}</p>
+            </div>
+            <div class="jumbotron jumbotron-fluid">
+                <p class="lead">Zgłoszenia w archiwum:</p>
+                <p class="display-4">{{ issues_data.done_count }}</p>
+            </div>
+            <div class="jumbotron jumbotron-fluid">
+                <p class="lead">Średni czas realizacji:</p>
+                <p class="display-4">{{ issues_data.average_processing_time }} md</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    const to_do_count = JSON.parse(document.getElementById('issues_data.to_do_count').textContent);
+    const in_progress_count = JSON.parse(document.getElementById('issues_data.in_progress_count').textContent);
+    const testing_count = JSON.parse(document.getElementById('issues_data.testing_count').textContent);
+    
+    if (to_do_count | in_progress_count | testing_count) {
+        const ctx = document.getElementById('pie-chart');
+        Chart.defaults.color = "white";
+        Chart.defaults.font.size = 16;
+        const chart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: [
+                    'Nierozpoczęte',
+                    'W realizacji',
+                    'Testowanie'
+                ],
+                    datasets: [{
+                    label: 'My First Dataset',
+                    data: [
+                        parseInt(to_do_count, 10), 
+                        parseInt(in_progress_count, 10), 
+                        parseInt(testing_count, 10)
+                    ],
+                    backgroundColor: [
+                        'rgb(231, 242, 248)',
+                        'rgb(160, 231, 229)',
+                        'rgb(116, 189, 203)'
+                    ],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Zgłoszenia w systemie'
+                    }
+                },
+                responsive:true,
+                maintainAspectRatio: false,
+            }
+        });
+    }
+    
+    </script>
+</div>
+{% endblock %}

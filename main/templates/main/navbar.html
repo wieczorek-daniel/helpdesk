@@ -25,17 +25,19 @@
                         <span><i class="material-icons">history</i>Archiwum</span>
                     </a>
                 </li>
+                {% if request.user|has_group:"Administrators" %}
                 <li class="nav-item active">
-                    <a class="nav-link" href="">
+                    <a class="nav-link" href="{% url 'statistics' %}">
                         <span><i class="material-icons">show_chart</i>Statystyki</span>
                     </a>
                 </li>
+                {% endif %}
             </ul>
         </div>
         <div class="mx-lg-auto order-0">
             <a class="navbar-brand mx-lg-auto" href="{% url 'home' %}"></a>
         </div>
-        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <div class="navbar-collapse collapse w-80 order-3 dual-collapse2">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
