@@ -25,6 +25,11 @@
                 <span class="material-icons">delete</span>
             </button>
             {% endif %}
+            {% if issue.assignee == request.user %}
+            <button type="button" data-bs-toggle="modal" data-bs-target="#issue-modal-{{ issue.id }}">
+                <span class="material-icons">edit</span>
+            </button>
+            {% endif %}
         </div>
         <div class="card-body">
             <span>
@@ -50,6 +55,9 @@
             </span>
             {% if issue.description %}
             <span><i class="material-icons">description</i>Opis: {{ issue.description }}</span>
+            {% endif %}
+            {% if issue.solution %}
+            <span><i class="material-icons">lightbulb</i>Rozwiązanie: {{ issue.solution }}</span>
             {% endif %}
         </div>
         <div class="card-footer">

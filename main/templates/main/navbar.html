@@ -15,11 +15,13 @@
                         <span><i class="material-icons">report</i>Zgłoszenia</span>
                     </a>
                 </li>
+                {% if not request.user|has_group:"Staff" %}
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'create_issue' %}">
                         <span><i class="material-icons">add</i>Nowe zgłoszenie</span>
                     </a>
                 </li>
+                {% endif %}
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'archive' %}">
                         <span><i class="material-icons">history</i>Archiwum</span>

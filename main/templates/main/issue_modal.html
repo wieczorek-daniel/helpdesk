@@ -36,7 +36,7 @@ aria-hidden="true">
                 <div class="form-group row">
                     <label for="assignee" class="col-md-4 offset-md-1 col-form-label">Pracownik</label>
                     <div class="col-md-6">
-                        <select class="form-select" name="assignee" aria-label="Wybór przypisanego pracownika">
+                        <select class="form-select" name="assignee" aria-label="Wybór przypisanego pracownika" {% if issue.status == 'done' and not request.user|has_group:'Administrators' %} disabled {% endif %}>
                             {% for user in staff %}
                             <option value="{{ user.id }}">{{ user.username }}</option>
                             {% endfor %}
@@ -53,6 +53,15 @@ aria-hidden="true">
                             <option {% if issue.status == key %} selected {% endif %} value="{{ key }}">{{ value }}</option>
                             {% endfor %}
                         </select>
+                    </div>
+                </div>
+                {% endif %}
+                {% if not request.user|has_group:"Users" %}
+                <div class="form-group row">
+                    <label for="solution" class="col-md-4 offset-md-1 col-form-label">Rozwiązanie</label>
+                    <div class="col-md-6">
+                        <textarea class="form-control" id="id_solution" name="solution"
+                            rows="3">{{ issue.solution }}</textarea>
                     </div>
                 </div>
                 {% endif %}

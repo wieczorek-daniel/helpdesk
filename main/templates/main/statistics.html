@@ -1,7 +1,7 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
-<div class="container-sm container-center">
+<div class="container">
     <div class="row justify-content-around">
         <div class="col-sm-12 col-lg-5 mbsm">
             <canvas id="pie-chart" ></canvas>
@@ -21,6 +21,10 @@
             <div class="jumbotron jumbotron-fluid">
                 <p class="lead">Średni czas realizacji:</p>
                 <p class="display-4">{{ issues_data.average_processing_time }} md</p>
+            </div>
+            <div class="jumbotron jumbotron-fluid">
+                <p class="lead">Zgłoszenia realizowane na czas:</p>
+                <p class="display-4">{{ issues_data.accuracy }}%</p>
             </div>
         </div>
     </div>

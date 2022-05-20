@@ -163,7 +163,8 @@ def updateIssue(request, pk):
     if request.method == "POST":
         form = CreateIssueForm(request.POST, instance=issue)
         if form.is_valid():
-            issue.assignee = User.objects.filter(id=request.POST['assignee']).first()
+            if request.user.groups.filter(name='Administrators').exists():
+                issue.assignee = User.objects.filter(id=request.POST['assignee']).first()
             form.save()
             messages.success(request, 'Zgłoszenie zostało pomyślnie zmodyfikowane.')
             return redirect('dashboard')
@@ -191,8 +192,10 @@ def archive(request):
         issues = issues = Issue.objects.filter(reporter=request.user, status='done').order_by('deadline').all()
     else:
         issues = Issue.objects.filter(status='done').order_by('deadline').all()
-  
-    context = {'issues': issues}
+    
+    staff = User.objects.filter(groups__name='Administrators') | User.objects.filter(groups__name='Staff')
+
+    context = {'issues': issues, 'staff': staff}
     return render(request, "main/archive.html", context)
 
 
@@ -208,9 +211,14 @@ def statistics(request):
     sum = amount = 0
     for issue in Issue.objects.filter(status='done').all():
         sum += (issue.updated_at - issue.created_at).days
-        print(sum)
         amount += 1
     average_processing_time = sum / amount
+
+    amount = 0
+    for issue in Issue.objects.filter(status='done').all():
+        if issue.updated_at < issue.deadline:
+            amount += 1
+    accuracy = round((amount / done_count) * 100, 2)
     
     issues_data = {
         'undone_count': undone_count,
@@ -219,7 +227,8 @@ def statistics(request):
         'testing_count': testing_count,
         'done_count': done_count,
         'in_processing_count': in_processing_count,
-        'average_processing_time': average_processing_time
+        'average_processing_time': average_processing_time,
+        'accuracy': accuracy
     }
 
     context = {'issues_data': issues_data}
