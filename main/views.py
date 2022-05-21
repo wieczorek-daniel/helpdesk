@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from .forms import CreateUserForm, UpdateUserForm, CreateIssueForm
 from django_email_verification import send_email
 from .models import Issue
@@ -41,7 +41,7 @@ def loginUser(request):
         return render(request, 'main/login.html', context)
 
 
-@group_required('Administrators')
+@group_required('Administrators', raise_exception=True)
 def createUser(request):
     form = CreateUserForm()
 
@@ -58,6 +58,13 @@ def createUser(request):
             user.is_active = False
             send_email(user)
             user.save()
+
+            if request.POST['role'] == 'user':
+                group = Group.objects.get(name='Users')
+            elif request.POST['role'] == 'staff':
+                group = Group.objects.get(name='Staff')
+            group.user_set.add(user)
+            
             username = form.cleaned_data.get('username')
             messages.success(request, f'Konto użytkownika {username} zostało utworzone. Na podany adres e-mail został wysłany link potwierdzający konto.')
             return redirect('create_user')
@@ -133,6 +140,8 @@ def deleteUser(request, pk):
     if user is not None:
         user.delete()
         messages.success(request, 'Użytkownik został pomyślnie usunięty.')
+        if request.user.id != user.id:
+            return redirect('user_management')
         return redirect('login')
     else:
         messages.error(request, 'Wystąpił błąd podczas usuwania użytkownika.')
@@ -199,7 +208,7 @@ def archive(request):
     return render(request, "main/archive.html", context)
 
 
-@login_required(login_url='login')
+@group_required('Administrators', raise_exception=True)
 def statistics(request):
     undone_count = Issue.objects.exclude(status='done').all().count()
     to_do_count = Issue.objects.filter(status='to_do').all().count()
@@ -233,6 +242,14 @@ def statistics(request):
 
     context = {'issues_data': issues_data}
     return render(request, "main/statistics.html", context)
+
+
+@group_required('Administrators', raise_exception=True)
+def userManagement(request):
+    users = User.objects.exclude(groups__name='Administrators').all()
+
+    context = {'users': users}
+    return render(request, "main/user-management.html", context)
 
 
 def handler403(request, exception):

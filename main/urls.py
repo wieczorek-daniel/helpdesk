@@ -22,4 +22,5 @@ urlpatterns = [
     path('delete_issue/<str:pk>/', views.deleteIssue, name="delete_issue"),
     path('archive/', views.archive, name="archive"),
     path('statistics/', views.statistics, name="statistics"),
+    path('user_management/', views.userManagement, name="user_management"),
 ]

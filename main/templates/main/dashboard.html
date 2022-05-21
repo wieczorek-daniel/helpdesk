@@ -51,6 +51,9 @@
             {% if issue.description %}
             <span><i class="material-icons">description</i>Opis: {{ issue.description }}</span>
             {% endif %}
+            {% if issue.solution %}
+            <span><i class="material-icons">lightbulb</i>Rozwiązanie: {{ issue.solution }}</span>
+            {% endif %}
         </div>
         <div class="card-footer">
             <span><i class="material-icons">access_time</i>Utworzono: {{ issue.created_at | date:"Y-m-d" }} {{ issue.created_at | time:"H:i" }}
