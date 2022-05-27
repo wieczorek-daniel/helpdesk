@@ -44,6 +44,16 @@ aria-hidden="true">
                     </div>
                 </div>
                 {% endif %}
+                <div class="form-group row">
+                    <label for="type" class="col-md-4 offset-md-1 col-form-label">Typ zgłoszenia</label>
+                    <div class="col-md-6">
+                        <select class="form-select" name="type" aria-label="Wybór typu zgłoszenia">
+                            {% for key, value in issue.TYPE %}
+                            <option {% if issue.status == key %} selected {% endif %} value="{{ key }}">{{ value }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
                 {% if not request.user|has_group:"Users" %}
                 <div class="form-group row">
                     <label for="status" class="col-md-4 offset-md-1 col-form-label">Status</label>

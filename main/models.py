@@ -19,6 +19,15 @@ class Issue(models.Model):
     )
 
     status = models.CharField(max_length=32, choices=STATUS, default='to_do')
+
+    TYPE = (
+        ('fix', ('Błąd')),
+        ('bug', ('Usterka')),
+        ('service', ('Naprawa')),
+        ('error', ('Nieprawidłowe działanie')),
+    )
+
+    type = models.CharField(max_length=32, choices=TYPE, default='fix')
     
     def __str__(self):
         return self.title

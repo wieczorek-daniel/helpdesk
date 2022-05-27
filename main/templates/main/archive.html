@@ -33,6 +33,18 @@
         </div>
         <div class="card-body">
             <span>
+                <i class="material-icons">build</i>Typ zgłoszenia: 
+                {% if issue.type == 'fix' %}
+                Błąd
+                {% elif issue.type == 'bug' %}
+                Usterka
+                {% elif issue.type == 'service' %}
+                Naprawa
+                {% elif issue.type == 'error' %}
+                Nieprawidłowe działanie
+                {% endif %}
+            </span>
+            <span>
                 <i class="material-icons">report_problem</i>Osoba zgłaszająca: {{ issue.reporter }}
             </span>
             <span>

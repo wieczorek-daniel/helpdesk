@@ -168,7 +168,7 @@ def createIssue(request):
 @login_required(login_url='login')
 def updateIssue(request, pk):
     issue = Issue.objects.get(id=pk)
-
+    print(request.POST)
     if request.method == "POST":
         form = CreateIssueForm(request.POST, instance=issue)
         if form.is_valid():
