@@ -9,6 +9,7 @@ from .forms import CreateUserForm, UpdateUserForm, CreateIssueForm
 from django_email_verification import send_email
 from .models import Issue
 from .decorators import group_required
+import datetime as dt
 
 
 def index(request):
@@ -16,6 +17,9 @@ def index(request):
 
 
 def loginUser(request):
+    if not isNowInTimePeriod(dt.time(7,30), dt.time(16,30), dt.datetime.now().time()):
+        return render(request, "errors/outside_working_hours.html")
+
     if request.user.is_authenticated:
         return redirect('dashboard')
     else:
@@ -271,3 +275,10 @@ def handler500(request):
     response = render(request, "errors/500.html", context=context)
     response.status_code = 500
     return response
+
+ 
+def isNowInTimePeriod(startTime, endTime, nowTime): 
+    if startTime < endTime: 
+        return nowTime >= startTime and nowTime <= endTime 
+    else:
+        return nowTime >= startTime or nowTime <= endTime 
